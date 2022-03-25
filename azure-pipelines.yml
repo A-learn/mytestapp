@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: macos-latest
 
 steps:
 - task: NodeTool@0
@@ -18,8 +18,9 @@ steps:
 - script: |
     npm install -g @angular/cli
     npm install -g cordova
-    cd mycordova/mytestapp
-    pwd
+    cd $(Build.SourcesDirectory)/mytestapp
+    echo $pwd
     npm install
     ./build.sh
   displayName: 'npm install and build'
+
