@@ -17,7 +17,9 @@ steps:
 
 - script: |
     npm install -g @angular/cli
-    cd mycordova
+    npm install -g cordova
+    cd mycordova/mytestapp
+    pwd
     npm install
     ./build.sh
   displayName: 'npm install and build'
