@@ -24,10 +24,10 @@ steps:
     npm run build
     echo "cd ../mycordova/"
     $ANDROID_HOME/tools/bin/sdkmanager --uninstall  'build-tools;32.0.0'
+    $ANDROID_HOME/tools/bin/sdkmanager --uninstall  'build-tools;31.0.0'
     $ANDROID_HOME/tools/bin/sdkmanager --install  'build-tools;30.0.0'
 
     cd $(Build.SourcesDirectory)/mycordova/
-    cordova telemetry on
     echo "cordova build"
     cordova build
 
@@ -44,7 +44,7 @@ steps:
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)/mycordova/platforms/'
     Contents: |
-      **
+      **/build/*
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
   displayName: 'CopyFiles'
 
