@@ -23,9 +23,11 @@ steps:
     npm install
     npm run build
     echo "cd ../mycordova/"
+    $ANDROID_HOME/tools/bin/sdkmanager --uninstall  'build-tools;32.0.0'
+    $ANDROID_HOME/tools/bin/sdkmanager --uninstall  'build-tools;31.0.0'
+    $ANDROID_HOME/tools/bin/sdkmanager --install  'build-tools;30.0.0'
 
     cd $(Build.SourcesDirectory)/mycordova/
-    cordova telemetry on
     echo "cordova build"
     cordova build
 
@@ -37,18 +39,28 @@ steps:
 
   displayName: 'npm install and build'
 
-
-- task: CopyFiles@2
+- task: Gradle@2
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/mycordova/platforms/'
-    Contents: |
-      **
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-  displayName: 'CopyFiles'
+    workingDirectory: '$(Build.SourcesDirectory)/mycordova/platforms/android/'
+    gradleWrapperFile: 'gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    tasks: 'assembleDebug'
+  displayName: 'Gradle build android'
+  
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.SourcesDirectory)/mycordova/platforms/android/app'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
+
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)'
-  displayName: 'PublishBuildArtifacts'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'PublishBuildArtifacts'
 
 
