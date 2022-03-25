@@ -39,14 +39,14 @@ steps:
 
   displayName: 'npm install and build'
 
-
-- task: CopyFiles@1
+- task: ArchiveFiles@2
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/mycordova/platforms/android/app'
-    Contents: |
-      **/build/*
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-  displayName: 'CopyFiles'
+    rootFolderOrFile: '$(Build.SourcesDirectory)/mycordova/platforms/android/app'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
 
 
 - task: PublishBuildArtifacts@1
