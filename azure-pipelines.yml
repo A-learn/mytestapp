@@ -25,3 +25,18 @@ steps:
     ./build.sh
   displayName: 'npm install and build'
 
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: |
+      **
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  displayName: 'CopyFiles'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)'
+  displayName: 'PublishBuildArtifacts'
+
+
