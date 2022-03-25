@@ -40,7 +40,7 @@ steps:
   displayName: 'npm install and build'
 
 
-- task: CopyFiles@2
+- task: CopyFiles@1
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)/mycordova/platforms/android/app'
     Contents: |
@@ -48,7 +48,7 @@ steps:
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
   displayName: 'CopyFiles'
 
-- task: PublishBuildArtifacts@1
+- task: PublishBuildArtifacts@2
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
   displayName: 'PublishBuildArtifacts'
