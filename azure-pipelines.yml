@@ -39,6 +39,15 @@ steps:
 
   displayName: 'npm install and build'
 
+- task: Gradle@2
+  inputs:
+    workingDirectory: '$(Build.SourcesDirectory)/mycordova/platforms/android/'
+    gradleWrapperFile: 'gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    tasks: 'assembleDebug'
+  displayName: 'Gradle build android'
+  
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.SourcesDirectory)/mycordova/platforms/android/app'
