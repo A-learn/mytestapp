@@ -23,6 +23,8 @@ steps:
     npm install
     npm run build
     echo "cd ../mycordova/"
+    $ANDROID_HOME/tools/bin/sdkmanager --uninstall  'build-tools;32.0.0'
+    $ANDROID_HOME/tools/bin/sdkmanager --install  'build-tools;30.0.0'
 
     cd $(Build.SourcesDirectory)/mycordova/
     cordova telemetry on
