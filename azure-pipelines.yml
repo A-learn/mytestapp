@@ -42,7 +42,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/mycordova/platforms/'
+    SourceFolder: '$(Build.SourcesDirectory)/mycordova/platforms/android/app'
     Contents: |
       **/build/*
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
