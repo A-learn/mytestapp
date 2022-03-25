@@ -21,6 +21,7 @@ steps:
     cd $(Build.SourcesDirectory)/mytestapp
     echo $pwd
     npm install
+    chmod +x ./build.sh
     ./build.sh
   displayName: 'npm install and build'
 
