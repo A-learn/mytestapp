@@ -42,7 +42,7 @@ steps:
 - task: Gradle@2
   inputs:
     workingDirectory: '$(Build.SourcesDirectory)/mycordova/platforms/android/'
-    gradleWrapperFile: 'gradlew'
+    gradleWrapperFile: '$(Build.SourcesDirectory)/mycordova/platforms/android/gradlew'
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: false
     tasks: 'assembleDebug'
