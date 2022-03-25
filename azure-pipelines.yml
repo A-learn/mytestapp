@@ -48,7 +48,7 @@ steps:
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
   displayName: 'CopyFiles'
 
-- task: PublishBuildArtifacts@2
+- task: PublishBuildArtifacts@3
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
   displayName: 'PublishBuildArtifacts'
