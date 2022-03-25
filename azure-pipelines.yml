@@ -21,14 +21,26 @@ steps:
     cd $(Build.SourcesDirectory)/mytestapp
     echo $pwd
     npm install
-    chmod +x ./build.sh
-    ./build.sh
+    npm run build
+    echo "cd ../mycordova/"
+
+    cd $(Build.SourcesDirectory)/mycordova/
+    cordova telemetry on
+    echo "cordova build"
+    cordova build
+
+    echo "$(Build.SourcesDirectory)/mytestapp"
+    cd $(Build.SourcesDirectory)/mytestapp
+
+    echo "copy mytestapp www"
+    cp -R $(Build.SourcesDirectory)/mytestapp/dist/mytestapp/* $(Build.SourcesDirectory)/mycordova/platforms/android/app/src/main/assets/www
+
   displayName: 'npm install and build'
 
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    SourceFolder: '$(Build.SourcesDirectory)/mycordova/platforms/'
     Contents: |
       **
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
