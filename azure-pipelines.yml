@@ -1,0 +1,54 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: macos-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install -g @angular/cli
+    npm install -g cordova
+    cd $(Build.SourcesDirectory)/mytestapp
+    echo $pwd
+    npm install
+    npm run build
+    echo "cd ../mycordova/"
+
+    cd $(Build.SourcesDirectory)/mycordova/
+    cordova telemetry on
+    echo "cordova build"
+    cordova build
+
+    echo "$(Build.SourcesDirectory)/mytestapp"
+    cd $(Build.SourcesDirectory)/mytestapp
+
+    echo "copy mytestapp www"
+    cp -R $(Build.SourcesDirectory)/mytestapp/dist/mytestapp/* $(Build.SourcesDirectory)/mycordova/platforms/android/app/src/main/assets/www
+
+  displayName: 'npm install and build'
+
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/mycordova/platforms/'
+    Contents: |
+      **
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  displayName: 'CopyFiles'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)'
+  displayName: 'PublishBuildArtifacts'
+
+
